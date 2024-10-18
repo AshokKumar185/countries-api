@@ -2,6 +2,7 @@ import express, { Router, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 const router = express.Router();
 import jwt from "jsonwebtoken";
+import authenticateToken from "../authenticateToken/authenticateToken";
 const User = require("../model/User");
 const dotenv = require("dotenv");
 
@@ -54,5 +55,22 @@ const login = async (
 
 router.post("/login", login);
 
-router.post("/login", login);
+router.get(
+  "/userDetails",
+  authenticateToken,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        res.status(404);
+      }
+      const id = user._id;
+      const findUser = await User.findOne({ _id: id });
+      res.json(findUser);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      res.sendStatus(500);
+    }
+  }
+);
 module.exports = router;
