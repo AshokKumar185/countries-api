@@ -14,20 +14,9 @@ const app = express();
 const myMiddleware = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
-// app.use(
-//   cors({
-//     origin: "*",
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     preflightContinue: false,
-//     optionsSuccessStatus: 204,
-//   })
-// );
 app.use(
   cors({
-    origin: [
-      "https://countries-api-one-beta.vercel.app",
-      "http://localhost:5005",
-    ],
+    origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
