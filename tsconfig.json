@@ -11,5 +11,5 @@
     "rootDir": "./src"                          // Specify the root directory of input files
   },
   "include": ["src/**/*.ts","express.d.ts"],                   // Include all TypeScript files in the src directory
-  "exclude": ["node_modules"]                   // Exclude the node_modules folder
+  "exclude": ["node_modules", "dist"]                   // Exclude the node_modules folder
 }
