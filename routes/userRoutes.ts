@@ -11,10 +11,14 @@ dotenv.config();
 router.post("/register", async (req: Request, res: Response) => {
   try {
     const { username, password, role } = req.body;
+    console.log(username);
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const user = new User({ username, password: hashedPassword, role });
+    console.log(user);
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+    console.log("User saved successfully");
+    res.status(200).json("User registered successfully");
   } catch (error) {
     res.status(500).json({ error: "Error registering user" });
   }

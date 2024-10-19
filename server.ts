@@ -14,6 +14,7 @@ const app = express();
 const myMiddleware = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
+app.use(myMiddleware);
 app.use(
   cors({
     origin: "*",
@@ -25,7 +26,7 @@ app.use(
 app.use(express.json());
 
 DBconnect();
-
+app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.json());
 
