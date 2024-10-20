@@ -73,7 +73,7 @@ router.put(
 );
 
 router.delete(
-  "/removeDistrict/:stateId",
+  "/removeState/:stateId",
   authMiddleware,
   roleMiddleware(["Admin"]),
   async (req: Request, res: Response) => {
