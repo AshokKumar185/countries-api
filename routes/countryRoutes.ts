@@ -52,12 +52,10 @@ router.put(
         { name },
         { new: true }
       );
-      res
-        .status(200)
-        .json({
-          message: "Successfully updated the country",
-          data: updateCountry,
-        });
+      res.status(200).json({
+        message: "Successfully updated the country",
+        data: updateCountry,
+      });
     } catch (error) {
       res.status(200).json({ "Error to update the Country": error });
       throw error;

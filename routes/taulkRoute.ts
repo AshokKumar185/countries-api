@@ -38,4 +38,52 @@ router.get(
   }
 );
 
+router.put(
+  "/updateTaluk/:talukId",
+  authMiddleware,
+  roleMiddleware(["Admin"]),
+  async (req: Request, res: Response) => {
+    try {
+      const { talukId } = req.params;
+      const { talukName } = req.body;
+      const existTaluk = await Taluk.findOne({ talukId });
+      if (!existTaluk) {
+        res.status(404).json({ Message: "Not found Taluk" });
+        return;
+      }
+      console.log(existTaluk);
+      await Taluk.findOneAndUpdate(
+        { talukId },
+        { name: talukName },
+        { new: true }
+      );
+      res.status(200).json({ Message: "Successfully updated the Taluk" });
+    } catch (error) {
+      res.status(500).json({ message: "Erro to update taluk" });
+      throw error;
+    }
+  }
+);
+
+router.delete(
+  "/removeTaluk/:talukId",
+  authMiddleware,
+  roleMiddleware(["Admin"]),
+  async (req: Request, res: Response) => {
+    try {
+      const { talukId } = req.params;
+      const existTaluk = await Taluk.findOne({ talukId });
+      if (!existTaluk) {
+        res.status(404).json({ Message: "Not found Taluk" });
+        return;
+      }
+      await Taluk.deleteOne({ talukId });
+      res.status(200).json({ message: "successfuly deleted Taluk" });
+    } catch (error) {
+      res.status(500).json({ message: "Error to delete Taluk" });
+      throw error;
+    }
+  }
+);
+
 module.exports = router;
