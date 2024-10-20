@@ -41,7 +41,7 @@ router.get(
 router.put(
   "/updateTaluk/:talukId",
   authMiddleware,
-  roleMiddleware(["Admin"]),
+  roleMiddleware(["Admin", "Manager"]),
   async (req: Request, res: Response) => {
     try {
       const { talukId } = req.params;
