@@ -31,17 +31,17 @@ const firmSchema: Schema = new Schema(
     country: {
       countryId: { type: String, required: true },
       countryName: { type: String, required: true },
-      countryCode: { type: String, required: true }, 
+      countryCode: { type: String, required: true },
     },
     state: {
       stateId: { type: String, required: true },
       stateName: { type: String, required: true },
-      stateCode: { type: String, required: true }, 
+      stateCode: { type: String, required: true },
     },
     district: {
       districtId: { type: String, required: true },
       districtName: { type: String, required: true },
-      districtCode: { type: String, required: true }, 
+      districtCode: { type: String, required: true },
     },
     taluk: {
       talukId: { type: String, required: true },
@@ -53,4 +53,4 @@ const firmSchema: Schema = new Schema(
 
 const FirmModel = mongoose.model<IFirm>("FirmMaster", firmSchema);
 
-module.exports = FirmModel
+module.exports = FirmModel;
