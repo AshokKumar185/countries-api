@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 const districtSchema = new mongoose.Schema({
+  districtCode: { type: String, required: true },
   districtId: { type: String, required: true },
   name: { type: String, required: true },
-  stateId: {
+  stateCode: {
     type: String,
     required: true,
   },
@@ -10,9 +11,8 @@ const districtSchema = new mongoose.Schema({
 const District = mongoose.model("District", districtSchema);
 module.exports = District;
 
-
- // stateId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "State",
-  //   required: true,
-  // },
+// stateId: {
+//   type: mongoose.Schema.Types.ObjectId,
+//   ref: "State",
+//   required: true,
+// },

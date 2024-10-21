@@ -5,6 +5,9 @@ import { Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 import authMiddleware from "../middleware/authMiddleware";
 import roleMiddleware from "../middleware/roleMiddleware";
+import { generateCode } from "../generateCode/generate";
+
+
 router.post(
   "/createCountry",
   roleMiddleware(["Admin"]),
@@ -12,7 +15,8 @@ router.post(
   async (req: Request, res: Response) => {
     const { name } = req.body;
     try {
-      const country = new Country({ name, countryId: uuidv4() });
+      const countryCode = generateCode(name);
+      const country = new Country({ name, countryCode, countryId: uuidv4() });
       await country.save();
       res.status(201).json(country);
     } catch (error) {

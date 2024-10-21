@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import roleMiddleware from "../middleware/roleMiddleware";
 import authMiddleware from "../middleware/authMiddleware";
+import { generateCode } from "../generateCode/generate";
 
 router.post(
   "/createState",
@@ -13,12 +14,13 @@ router.post(
   authMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const { name, countryId, countryName } = req.body;
+      const { name, countryCode } = req.body;
+      const stateCode = generateCode(name);
       const newState = new State({
         stateId: uuidv4(),
         name,
-        countryId,
-        countryName,
+        countryCode,
+        stateCode,
       });
       await newState.save();
       res.status(200).json("State Created Successfully");
@@ -30,12 +32,12 @@ router.post(
 );
 
 router.get(
-  "/getState/:countryId",
+  "/getState/:countryCode",
   authMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const { countryId } = req.params;
-      const stateData = await State.find({ countryId });
+      const { countryCode } = req.params;
+      const stateData = await State.find({ countryCode });
       console.log(stateData);
       res.status(200).json(stateData);
     } catch (error) {
@@ -58,6 +60,7 @@ router.put(
         res.status(404).json({ message: "state not found" });
         return;
       }
+      console.log(existState);
       const updateState = await State.findOneAndUpdate(
         { stateId },
         { name: stateName },

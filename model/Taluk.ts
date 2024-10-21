@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const talukSchema = new mongoose.Schema({
   talukId: { type: String, required: true },
   name: { type: String, required: true },
-  districtId: {
+  districtCode: {
     type: String,
     required: true,
   },

@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import roleMiddleware from "../middleware/roleMiddleware";
 import authMiddleware from "../middleware/authMiddleware";
+import { generateCode } from "../generateCode/generate";
 
 router.post(
   "/createTaluk",
@@ -12,8 +13,14 @@ router.post(
   roleMiddleware(["Admin"]),
   async (req: Request, res: Response) => {
     try {
-      const { name, districtId } = req.body;
-      const newTaluk = new Taluk({ talukId: uuidv4(), name, districtId });
+      const { name, districtCode } = req.body;
+      const talukCode = generateCode(name);
+      const newTaluk = new Taluk({
+        talukId: uuidv4(),
+        name,
+        districtCode,
+        talukCode,
+      });
       await newTaluk.save();
       res.status(200).json("taluk Created Successfully");
     } catch (error) {
@@ -24,12 +31,12 @@ router.post(
 );
 
 router.get(
-  "/getTaluk/:districtId",
+  "/getTaluk/:districtCode",
   authMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const { districtId } = req.params;
-      const talukData = await Taluk.find({ districtId });
+      const { districtCode } = req.params;
+      const talukData = await Taluk.find({ districtCode });
       res.status(200).json(talukData);
     } catch (error) {
       res.status(500).json({ "Error to get taluk data": error });
