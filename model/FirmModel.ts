@@ -53,4 +53,4 @@ const firmSchema: Schema = new Schema(
 
 const FirmModel = mongoose.model<IFirm>("FirmMaster", firmSchema);
 
-export default FirmModel; 
+module.exports = FirmModel
