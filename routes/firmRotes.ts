@@ -20,7 +20,7 @@ const createFirm = async (
     const state = await State.findOne({ stateId });
     const district = await District.findOne({ districtId });
     const taluk = await Taluk.findOne({ talukId });
-
+    console.log(taluk);
     if (!country || !state || !district || !taluk) {
       res.status(404).json({ error: "One or more related entities not found" });
       return;
@@ -32,18 +32,22 @@ const createFirm = async (
       country: {
         countryId: country.countryId,
         countryName: country.name,
+        countryCode: country.countryCode,
       },
       state: {
         stateId: state.stateId,
         stateName: state.name,
+        stateCode: state.stateCode,
       },
       district: {
         districtId: district.districtId,
         districtName: district.name,
+        districtCode: district.districtCode,
       },
       taluk: {
         talukId: taluk.talukId,
         talukName: taluk.name,
+        talukCode: taluk.talukCode,
       },
     });
 
@@ -55,6 +59,6 @@ const createFirm = async (
   }
 };
 
-router.post("/createFirm",authMiddleware, createFirm);
+router.post("/createFirm", authMiddleware, createFirm);
 
-module.exports = router
+module.exports = router;
