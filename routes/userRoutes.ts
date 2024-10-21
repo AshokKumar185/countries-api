@@ -3,26 +3,33 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 import jwt from "jsonwebtoken";
 import authenticateToken from "../authenticateToken/authenticateToken";
+import authMiddleware from "../middleware/authMiddleware";
+import roleMiddleware from "../middleware/roleMiddleware";
 const User = require("../model/User");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-router.post("/register", async (req: Request, res: Response) => {
-  try {
-    const { username, password, role } = req.body;
-    console.log(username);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
-    const user = new User({ username, password: hashedPassword, role });
-    console.log(user);
-    await user.save();
-    console.log("User saved successfully");
-    res.status(200).json("User registered successfully");
-  } catch (error) {
-    res.status(500).json({ error: "Error registering user" });
+router.post(
+  "/register",
+  authMiddleware,
+  roleMiddleware(["Admin"]),
+  async (req: Request, res: Response) => {
+    try {
+      const { username, password, role } = req.body;
+      console.log(username);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log(hashedPassword);
+      const user = new User({ username, password: hashedPassword, role });
+      console.log(user);
+      await user.save();
+      console.log("User saved successfully");
+      res.status(200).json("User registered successfully");
+    } catch (error) {
+      res.status(500).json({ error: "Error registering user" });
+    }
   }
-});
+);
 
 const login = async (
   req: Request,
